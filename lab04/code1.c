@@ -1,5 +1,5 @@
 #include <stdio.h>
-int recursiveCombination(int score, int index, int combination[], int size);
+int recursiveCombination(int score, int combination[], int playId, int size);
 
 int main() {
 	int nflScore;
@@ -7,8 +7,9 @@ int main() {
 	scanf("%d", &nflScore);
 
 	while (nflScore >= 2) { // Continue if input is >= 2
-   		int combination[100];
-		recursiveCombination(nflScore, 0, combination, 0);
+   		int combination[128]; // reserve space to store plays
+		// use recursion to find all plays that lead exactly to score
+		recursiveCombination(nflScore, combination, 0, 0);
 
 		// Ask for next number
 		printf("Enter score: ");
@@ -18,7 +19,7 @@ int main() {
 	return 0;
 }
 
-int recursiveCombination(int score, int index, int combination[], int size) {
+int recursiveCombination(int score, int combination[], int playId, int size) {
 	int plays[5] = {
 		6, // TD
 		3, // FG
@@ -43,8 +44,8 @@ int recursiveCombination(int score, int index, int combination[], int size) {
 	}
 
 	// Next step
-	for (int i = index; i < 5; i++) {
+	for (int i = playId; i < 5; i++) {
 		combination[size] = i; // Mark down which play was used
-		recursiveCombination(score - plays[i], i, combination, size + 1);
+		recursiveCombination(score - plays[i], combination, i, size + 1);
 	}
 }
