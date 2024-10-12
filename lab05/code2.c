@@ -1,4 +1,5 @@
 // Alejandro Sandoval
+// EECS 348 Lab 5 part 2
 
 #include <stdio.h>
 
