@@ -7,14 +7,15 @@
 	<link rel="stylesheet" href="styles.css">
 </head>
 <body>
-	<header>
+	<header class="title">
 		<h1>Practice 2</h1>
 	</header>
+
 	<div class="paragraph">
-		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 	</div>
 
-	<div>
+	<div class="page-content">
 		<p>Border Color (0-255):</p>
 		<label for="red">Red:</label>
 		<input type="text" id="red" name="red" value="0">
@@ -47,11 +48,17 @@
 			let greenBackground = document.getElementById('green-background').value;
 			let blueBackground = document.getElementById('blue-background').value;
 
+			let pageContent = document.querySelector('.page-content');
 			let paragraph = document.querySelector('.paragraph');
+			paragraph.style.borderStyle = 'solid';
 			paragraph.style.borderColor = 'rgb(' + red + ',' + green + ',' + blue + ')';
 			paragraph.style.backgroundColor = 'rgb(' + redBackground + ',' + greenBackground + ',' + blueBackground + ')';
 			paragraph.style.borderWidth = width + 'px';
-		}
+
+			paragraph.style.maxWidth = '800px';
+			paragraph.style.margin = 'auto';
+		};
+		updateBorder();
 	</script>
 </body>
 </html>
