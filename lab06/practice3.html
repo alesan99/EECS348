@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>EECS Alejandro Sandoval</title>
+	<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+	<header>
+		<h1>Practice 3</h1>
+	</header>
+		<label for="password">Password:</label>
+		<input type="text" id="password" name="password" value="">
+		<br/><br/>
+		<label for="password2">Re-enter:</label>
+		<input type="text" id="password2" name="password2" value="">
+		<br/><br/>
+		<button onclick="checkPassword()">Validate Password</button>
+	<div>
+	<script>
+		function checkPassword() {
+			let password = document.getElementById('password').value;
+			let password2 = document.getElementById('password2').value;
+			if (password != password2) {
+				alert('Passwords do not match!');
+			} else if (password.length < 8) {
+				alert('Password must be at least 8 characters long!');
+			} else {
+				alert('Password is valid!');
+			}
+		}
+	</script>
+</body>
+</html>

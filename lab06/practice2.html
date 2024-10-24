@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>EECS Alejandro Sandoval</title>
+	<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+	<header>
+		<h1>Practice 2</h1>
+	</header>
+	<div class="paragraph">
+		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+	</div>
+
+	<div>
+		<p>Border Color (0-255):</p>
+		<label for="red">Red:</label>
+		<input type="text" id="red" name="red" value="0">
+		<label for="green">Green:</label>
+		<input type="text" id="green" name="green" value="0">
+		<label for="blue">Blue:</label>
+		<input type="text" id="blue" name="blue" value="0">
+		<br/><br/>
+		<p>Background Color (0-255):</p>
+		<label for="red">Red:</label>
+		<input type="text" id="red-background" name="red-background" value="255">
+		<label for="green">Green:</label>
+		<input type="text" id="green-background" name="green-background" value="255">
+		<label for="blue">Blue:</label>
+		<input type="text" id="blue-background" name="blue-background" value="255">
+		<br/><br/>
+		<label for="width">Border Width (px):</label>
+		<input type="text" id="width" name="width" value="2">
+		<br/><br/>
+		<button onclick="updateBorder()">Update Border</button>
+	</div>
+
+	<script>
+		function updateBorder() {
+			let red = document.getElementById('red').value;
+			let green = document.getElementById('green').value;
+			let blue = document.getElementById('blue').value;
+			let width = document.getElementById('width').value;
+			let redBackground = document.getElementById('red-background').value;
+			let greenBackground = document.getElementById('green-background').value;
+			let blueBackground = document.getElementById('blue-background').value;
+
+			let paragraph = document.querySelector('.paragraph');
+			paragraph.style.borderColor = 'rgb(' + red + ',' + green + ',' + blue + ')';
+			paragraph.style.backgroundColor = 'rgb(' + redBackground + ',' + greenBackground + ',' + blueBackground + ')';
+			paragraph.style.borderWidth = width + 'px';
+		}
+	</script>
+</body>
+</html>
