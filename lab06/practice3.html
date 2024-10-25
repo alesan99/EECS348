@@ -21,11 +21,15 @@
 	<div>
 	<script>
 		function checkPassword() {
+			// get user inputs
 			let password = document.getElementById('password').value;
 			let password2 = document.getElementById('password2').value;
+
 			if (password != password2) {
+				// must match
 				alert('Passwords do not match!');
 			} else if (password.length < 8) {
+				// must be >= 8 characters
 				alert('Password must be at least 8 characters long!');
 			} else {
 				alert('Password is valid!');

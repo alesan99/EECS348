@@ -40,6 +40,7 @@
 
 	<script>
 		function updateBorder() {
+			// get user inputs
 			let red = document.getElementById('red').value;
 			let green = document.getElementById('green').value;
 			let blue = document.getElementById('blue').value;
@@ -48,17 +49,17 @@
 			let greenBackground = document.getElementById('green-background').value;
 			let blueBackground = document.getElementById('blue-background').value;
 
-			let pageContent = document.querySelector('.page-content');
+			// apply changes
 			let paragraph = document.querySelector('.paragraph');
 			paragraph.style.borderStyle = 'solid';
 			paragraph.style.borderColor = 'rgb(' + red + ',' + green + ',' + blue + ')';
 			paragraph.style.backgroundColor = 'rgb(' + redBackground + ',' + greenBackground + ',' + blueBackground + ')';
 			paragraph.style.borderWidth = width + 'px';
 
-			paragraph.style.maxWidth = '800px';
+			paragraph.style.maxWidth = '800px'; // also center
 			paragraph.style.margin = 'auto';
 		};
-		updateBorder();
+		updateBorder(); // Apply initial border
 	</script>
 </body>
 </html>
