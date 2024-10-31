@@ -7,47 +7,19 @@ using namespace std;
 const int MAX_SIZE = 100;
 
 class Matrix {
-private:
-	double values[MAX_SIZE][MAX_SIZE];
-	int size;
-
 public:
-	Matrix(int size) : size(size) {};
+	int matrix_size;
+	double matrix_data[MAX_SIZE][MAX_SIZE]; //using array to prevent segmenation faults 100%
 
-	int getSize() const {
-		return size;
-	}
+	Matrix(int size = 0) : matrix_size(size) {};
 
-	void read_matrix_from_stream() {
-		// Read matrix data from cin into matrix_1 and matrix_2
-		// Make sure to handle potential errors and invalid input
-		for (int y = 0; y < size; y++) {
-			// for each row
-			for (int x = 0; x < size; x++) {
-			// for each column
-			int value;
-			bool valid = false; // make sure input is valid to prevent errors
-			while (!valid) {
-				cout << x << ", " << y << ": "; // print row, column
-				cin >> value;
-				if (cin.fail()) {
-				cout << "Invalid integer. Retry" << endl;
-				cin.clear();
-				cin.ignore(1000, '\n'); // ignore invalid input
-				continue; // retry
-				}
-				valid = true;
-			}
-			values[y][x] = value;
-			}
-		}
-	}
+	~Matrix() {}
 
 	void print() const {
 		// Print the matrix to the console
-		for (int y = 0; y < size; y++) {
-			for (int x = 0; x < size; x++) {
-				cout << values[y][x] << " ";
+		for (int y = 0; y < matrix_size; y++) {
+			for (int x = 0; x < matrix_size; x++) {
+				cout << matrix_data[y][x] << " ";
 			}
 			// make new line after row is finisehd
 			cout << endl;
@@ -57,10 +29,10 @@ public:
 
 	Matrix operator+(const Matrix &other) const {
 		// Implement matrix addition and store the result in 'result'
-		Matrix result(size);
-		for (int y = 0; y < size; y++) {
-			for (int x = 0; x < size; x++) {
-				result.values[y][x] = values[y][x]+other.values[y][x];
+		Matrix result(matrix_size);
+		for (int y = 0; y < matrix_size; y++) {
+			for (int x = 0; x < matrix_size; x++) {
+				result.matrix_data[y][x] = matrix_data[y][x]+other.matrix_data[y][x];
 			}
 		}
 		return result;
@@ -68,12 +40,12 @@ public:
 
 	Matrix operator*(const Matrix &other) const {
 		// Implement matrix multiplication and store the result in 'result'
-		Matrix result(size);
-		for (int i = 0; i < size; i++) {
-			for (int j = 0; j < size; j++) {
-				result.values[i][j] = 0;
-				for (int k = 0; k < size; k++) {
-					result.values[i][j] += values[i][k]*other.values[k][j];
+		Matrix result(matrix_size);
+		for (int i = 0; i < matrix_size; i++) {
+			for (int j = 0; j < matrix_size; j++) {
+				result.matrix_data[i][j] = 0;
+				for (int k = 0; k < matrix_size; k++) {
+					result.matrix_data[i][j] += matrix_data[i][k]*other.matrix_data[k][j];
 				}
 			}
 		}
@@ -83,8 +55,8 @@ public:
 	void get_diagonal_sum() const {
 		// Calculate and print the sum of the diagonal elements
 		double sum = 0;
-		for (int diag = 0; diag < size; diag++) {
-			sum += values[diag][diag];
+		for (int diag = 0; diag < matrix_size; diag++) {
+			sum += matrix_data[diag][diag];
 		}
 		cout << sum << endl;
 	}
@@ -92,54 +64,118 @@ public:
 	void swap_row(int row1, int row2) {
 		// Swap the rows 'row1' and 'row2' in the matrix
 		// Handle invalid row indices
-		if (row1 < 0 || row2 < 0 || row1 >= size || row2 >= size) {
+		if (row1 < 0 || row2 < 0 || row1 >= matrix_size || row2 >= matrix_size) {
 			cout << "Invalid row indices" << endl;
 			return;
 		}
 
-		for (int i = 0; i < size; i++) {
-			double temp = values[row1][i]; // store value temporarilly
+		for (int i = 0; i < matrix_size; i++) {
+			double temp = matrix_data[row1][i]; // store value temporarilly
 
-			values[row1][i] = values[row2][i]; // swap 2 -> 1
-			values[row2][i] = temp; // 1 -> 2
+			matrix_data[row1][i] = matrix_data[row2][i]; // swap 2 -> 1
+			matrix_data[row2][i] = temp; // 1 -> 2
 		}
+
+		print();
 	}
 };
 
-int main(int argc, char *argv[]) {
-	int size;
-	cout << "Enter the size of the matrices: ";
-	cin >> size;
-
-	if (cin.fail() || size > MAX_SIZE) {
-		cout << "Invalid matrix size." << endl;
-		return 1;
+void read_matrix_from_file(const string& file_name, Matrix& matrix_1, Matrix& matrix_2) {
+    // Read matrix data from the file
+    // Make sure to handle potential errors and invalid input
+	ifstream file(file_name);
+	if (!file.is_open()) {
+		// handle missing file
+		cout << "Couldn't find file" << endl;
+		return;
 	}
-	Matrix matrix_1(size);
-	Matrix matrix_2(size);
 
-	cout << "Enter values for the matrix 1:" << endl;
-	matrix_1.read_matrix_from_stream();
-	cout << "Enter values for the matrix 2:" << endl;
-	matrix_2.read_matrix_from_stream();
-	cout << "print_matrix" << endl;
+	// first line is matrix_size
+	int matrix_size;
+	file >> matrix_size;
+	matrix_1.matrix_size = matrix_size;
+	matrix_2.matrix_size = matrix_size;
+
+	// then matrix_data for matrix 1 then 2
+	for (int y = 0; y < matrix_size; y++) {
+		for (int x = 0; x < matrix_size; x++) {
+			file >> matrix_1.matrix_data[y][x];
+            if (file.fail()) {
+                cout << "Invalid value in matrix 1" << endl;
+                return;
+            }
+		}
+	}
+
+	for (int y = 0; y < matrix_size; y++) {
+		for (int x = 0; x < matrix_size; x++) {
+			file >> matrix_2.matrix_data[y][x];
+            if (file.fail()) {
+                cout << "Invalid value in matrix 2" << endl;
+                return;
+            }
+		}
+	}
+
+	file.close();
+}
+
+void print_matrix(const Matrix& matrix) {
+    // Print the matrix to the console
+	matrix.print();
+}
+
+void print_matrix(const Matrix& matrix_1, const Matrix& matrix_2) {
+    // Print both matrices to the console
 	matrix_1.print();
 	matrix_2.print();
+}
 
-	Matrix add_result = matrix_1 + matrix_2;
-	cout << "add_matrices result:" << endl;
-	add_result.print();
+Matrix add_matrices(const Matrix& matrix_1, const Matrix& matrix_2) {
+    // Implement matrix addition
+	return matrix_1 + matrix_2;
+}
 
-	Matrix multiply_result_matrix = matrix_1 * matrix_2;
-	cout << "multiply_matrices result:" << endl;
-	multiply_result_matrix.print();
+Matrix multiply_matrices(const Matrix& matrix_1, const Matrix& matrix_2) {
+    // Implement matrix multiplication
+	return matrix_1 * matrix_2;
+}
 
-	cout << "get matrix diagonal sum" << endl;
-	matrix_1.get_diagonal_sum();
+void get_diagonal_sum(const Matrix& matrix) {
+    // Calculate and print the sum of the diagonal elements
+	matrix.get_diagonal_sum();
+}
 
-	cout << "swap matrix rows" << endl;
-	matrix_1.swap_row(0, 1);
-	matrix_1.print();
+void swap_matrix_row(Matrix& matrix, int row1, int row2) {
+    // Swap the rows 'row1' and 'row2' in the matrix
+    // Handle invalid row indices
+	matrix.swap_row(row1, row2);
+}
 
-	return 0;
+int main(int argc, char* argv[]) {
+    Matrix matrix_1, matrix_2;
+    read_matrix_from_file("matrix.txt", matrix_1, matrix_2);
+
+    cout << "print_matrix" << endl;
+    print_matrix(matrix_1, matrix_2);
+
+    cout << "add_matrices result:" << endl;
+    Matrix add_result_1 = add_matrices(matrix_1, matrix_2);
+    Matrix add_result_2 = matrix_1 + matrix_2;
+    print_matrix(add_result_1);
+    print_matrix(add_result_2);
+
+    cout << "multiply_matrices result:" << endl;
+    Matrix multiply_result_1 = multiply_matrices(matrix_1, matrix_2);
+    Matrix multiply_result_2 = matrix_1 * matrix_2;
+    print_matrix(multiply_result_1);
+    print_matrix(multiply_result_2);
+
+    cout << "get matrix diagonal sum" << endl;
+    get_diagonal_sum(matrix_1);
+
+    cout << "swap matrix rows" << endl;
+    swap_matrix_row(matrix_1, 0, 1);
+
+    return 0;
 }
