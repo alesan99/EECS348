@@ -1,3 +1,5 @@
+// Alejandro Sandoval
+// EECS 348 lab 7
 
 #include <iostream>
 #include <fstream>
